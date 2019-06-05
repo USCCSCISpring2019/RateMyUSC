@@ -38,7 +38,8 @@ CREATE TABLE Review(
     foreign key(professorID) references Professor(ProfessorID),
     upvote INT (5) NOT NULL,
     downvote INT(5) NOT NULL,
-    anonymity bool NOT NULL
+    anonymity bool NOT NULL,
+    class VARCHAR(10)
 );
 
 
