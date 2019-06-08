@@ -30,9 +30,6 @@ public class login extends HttpServlet {
 			return;
 		}
 		
-		if() {
-			
-		}
 		
 	}
 	
