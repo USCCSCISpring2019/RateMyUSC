@@ -18,13 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	String fname = null;
-	String lname = null;
-	String email = null;
-	String password = null;
-	String password_copy = null;
-	String major = null;
-	String errorMsg = null;
+	private String fname = null;
+	private String lname = null;
+	private String email = null;
+	private String password = null;
+	private String password_copy = null;
+	private String major = null;
+	private String errorMsg = null;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		fname 			= request.getParameter("fname");
 		lname 			= request.getParameter("lname");
