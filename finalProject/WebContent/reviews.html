@@ -10,6 +10,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script>
+			function login() {
+				document.getElementById("login_overlay").style.display = "block";
+			}
+		</script>
 	</head>
 	<body>
 
@@ -19,12 +24,27 @@
 					<a href="index.html" class="logo">introspect</a>
 					<nav id="nav">
 						<a href="index.html">Home</a>
-						<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a>
+						<a href="#" onclick="login()">Login</a>
+						<a href="register.html">Register</a>
 					</nav>
 				</div>
 			</header>
 			<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+			<div id="login_overlay">
+				<form id="user_login">
+					<div style="height:80px;"></div>
+					<div id="" class="login_fields">Email</div><br />
+					<input id="username" class="login_fields" type="text"><br />
+					<div style="height:20px;"></div>
+					<div class="login_fields">Password</div><br />
+					<input id="password" class="login_fields" type="text"><br />
+					<div id="error_msg"></div>
+					<input id="login_submit" type="submit" value="Log in">
+				</form>
+				<img id="login_icon" src="images/tj.jpg">
+				<img id="cancel_icon" src="images/cancel.png" onclick="document.getElementById('login_overlay').style.display = 'none';">
+			</div>
 
 		<!-- Main -->
 			<section id="main" >
