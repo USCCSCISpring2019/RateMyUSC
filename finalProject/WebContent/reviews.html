@@ -1,68 +1,155 @@
-<!DOCTYPE HTML>
-<!--
-	Introspect by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Generic - Introspect by TEMPLATED</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-		<!-- Header -->
-			<header id="header">
+<link rel="stylesheet" href="assets/css/reviews.css" />
+</head>
+<body>
+<!-- Header -->
+<header id="header">
 				<div class="inner">
 					<a href="index.html" class="logo">Rate My USC</a>
 					<nav id="nav">
-						<a href="index.html">Home</a>
-						<a href="generic.html">Generic</a>
+						<a href="index.jsp">Home</a>
+						<a href="Login.htm">Generic</a>
 						<a href="elements.html">Elements</a>
 					</nav>
 				</div>
-			</header>
-			<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-
-		<!-- Main -->
-			<section id="main" >
-				<div class="inner">
-					<header class="major special">
-						<h1>Professors</h1>
-
-						<h4>Search by:</h4>
-<div class="field half first">
-						<select style="width:35%">
-							<option>Department</option>
-							<option>Name</option>
-						</select>
+				</header>
+<div id="mySidenav" class="sidenav" style="margin-top:85px;">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#" onclick="openProfs()">Professors</a>
+  <a href="#" onclick="openDepartments()">Departments</a>
+  <a href="#" onclick="openClasses()">Classes</a>
+  <a href="#" onclick="openRating()">Rate</a>
 </div>
-<div class="field half" style="width:35%">
-<input type="text" name="alt"/>
+<div id ="sideside" class="sidenav2" style="margin-top:85px; margin-left:250px; border-color: red;">
+<form>
+<h3 style="margin:25px;">Department</h3>
+<select style="margin:25px; width:auto">
+<option>Arts and Humanities</option>
+<option>Natural Sciences</option>
+<option>Social Sciences</option>
+<option>Engineering</option>
+</select>
+<h3 style="margin:25px;">Name</h3>
+<input type="text" style="margin:25px; width:85%">
+<input type="submit" value="Search" style="margin:25px">
+</form>
 </div>
-					
+
+<div id ="sideside2" class="sidenav2" style="margin-top:85px; margin-left:250px; border-color: red;">
+<form>
+<h3 style="margin:25px;">Department</h3>
+<select style="margin:25px; width:auto">
+<option>Arts and Humanities</option>
+<option>Natural Sciences</option>
+<option>Social Sciences</option>
+<option>Engineering</option>
+</select>
+<h3 style="margin:25px;">Name</h3>
+<input type="submit" value="Search" style="margin:25px">
+</form>
+</div>
+
+<div id ="sideside3" class="sidenav2" style="margin-top:85px; margin-left:250px; border-color: red;">
+<form>
+<h3 style="margin:25px;">Classes</h3>
+<select style="margin:25px; width:auto">
+<option>Arts and Humanities</option>
+<option>Natural Sciences</option>
+<option>Social Sciences</option>
+<option>Engineering</option>
+</select>
+<h3 style="margin:25px;">Name</h3>
+<input type="text" style="margin:25px; width:85%">
+<input type="submit" value="Search" style="margin:25px">
+</form>
+</div>
+
+<div id ="sideside4" class="sidenav2" style="margin-top:85px; margin-left:250px; border-color: red;">
+<form>
+<h3 style="margin:25px; margin-bottom:0px;">Rate </h3>
+<label>
+<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Professor" checked="checked"> Professor
+<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Department"> Department
+<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Class"> Class
+</label>
+<hr style="margin:16px">
+
+<h3 style="margin:25px;">I want to rate</h3>
+<input type="text" style="margin:25px; width:85%; border-color:red" placeholder="Professor's Name">
+<input type="submit" value="Search" style="margin:25px">
+</form>
+</div>
+
+
+		
+<div id="main">
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Search</span>
+
+	
 <div class ="field half first"> 
-<h3> Top Professors Leaderboard </h3>
+<h2> Top Professors Leaderboard </h2>
 <ul>
 <li>Jeffrey Miller</li>
 <li>Sandra Batista</li>
 </ul>
 </div>
+ 
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+  
+}
+function openProfs() {
+	closesidesides();
+	document.getElementById("sideside").style.width = "500px";
+	document.getElementById("sideside").style.border = "solid";
+	document.getElementById("sideside").style.borderColor = "red";
+}
+function openDepartments() {
+	closesidesides();
+document.getElementById("sideside2").style.width = "500px";
+	document.getElementById("sideside2").style.border = "solid";
+	document.getElementById("sideside2").style.borderColor = "red";
+}
+function openClasses() {
+	closesidesides();
+document.getElementById("sideside3").style.width = "500px";
+	document.getElementById("sideside3").style.border = "solid";
+	document.getElementById("sideside3").style.borderColor = "red";
+}
+function openRating() {
+	closesidesides();
+document.getElementById("sideside4").style.width = "500px";
+	document.getElementById("sideside4").style.border = "solid";
+	document.getElementById("sideside4").style.borderColor = "red";
+}
 
 
-</header>
-					
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  closesidesides();
+}
 
-				</div>
-			</section>
+function closesidesides() {
+document.getElementById("sideside").style.width = "0";
+  document.getElementById("sideside").style.border = "none";
+document.getElementById("sideside2").style.width = "0";
+  document.getElementById("sideside2").style.border = "none";
+document.getElementById("sideside3").style.width = "0";
+  document.getElementById("sideside3").style.border = "none";
+document.getElementById("sideside4").style.width = "0";
+  document.getElementById("sideside4").style.border = "none";
+}
 
-				<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
-</html>
+</script>
+   
+</body>
+</html> 

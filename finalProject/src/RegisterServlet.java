@@ -2,6 +2,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import org.bson.Document;
 
+import com.mongodb.CommandResult;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -86,17 +87,20 @@ public class RegisterServlet extends HttpServlet {
 			MongoClient client = new MongoClient("localhost", 27017);
 			//String connectPoint = client.getConnectPoint();
 			System.out.println("Server connection successful");
-			
 			MongoDatabase dbs = client.getDatabase("RMUSC");
+			
 			System.out.println("Connected to database successful");
 			System.out.println("Database: " + dbs.getName());
 			
+			
 			// Inserting into the collection
 			MongoCollection<Document> collection = dbs.getCollection("testuser");
+			System.out.println(collection.count());
 			Document doc = collection.find(eq("email",email.toLowerCase())).first();
 			if (doc == null) {
 				// Create this new user
-				doc = new Document("fname", fname)
+				doc = new Document("_id", (int)collection.count())
+						.append("fname", fname)
 						.append("lname", lname)
 						.append("email", email.toLowerCase())
 						.append("password", password)
@@ -111,15 +115,9 @@ public class RegisterServlet extends HttpServlet {
 			client.close();
 		} catch (Exception e) {
 			System.out.println("Error in DB");
-		}
-		
-		
-		
-		
-		
-		
-		
+		}	
 	}
+	
 }
 /*
 public class RegisterServlet {
