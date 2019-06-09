@@ -59,6 +59,16 @@
 						<h3>Edit Profile</h1>
 						
 					<form method="post" action="index.jsp" onsubmit="return changeProfile()">
+						<div class="field" style="width:48.5%;">
+							<label for="email">USC Email (not editable)</label>
+							<input type="text" name="email" id="email" style = "user-select: none;" />
+							<script>
+							document.getElementById("email").addEventListener("mousedown", function(event){
+								  event.preventDefault();
+							});
+							</script>
+						</div>
+						
 						<div class="field half first">
 							<label for="fname">First name</label>
 							<input type="text" name="fname" id="fname"/>
@@ -66,10 +76,6 @@
 						<div class="field half">
 							<label for="lname">Last name</label>
 							<input type="text" name="lname" id="lname"/>
-						</div>
-						<div class="field" style="width:48.5%">
-							<label for="email">USC Email</label>
-							<input type="text" name="email" id="email"/>
 						</div>
 						<div class="field half first" style="width:48.5%">
 							<label for="email">New Password</label>
