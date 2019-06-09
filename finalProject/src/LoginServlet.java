@@ -64,6 +64,14 @@ public class LoginServlet extends HttpServlet{
 					// store user in session
 					HttpSession session = request.getSession();
 					session.setAttribute("user", email);
+					
+					String fname = doc.getString("fname");
+					String lname = doc.getString("lname");
+					String major = doc.getString("major");
+					session.setAttribute("fname", fname);
+					session.setAttribute("lname", lname);
+					session.setAttribute("major", major);
+
 					// redirect to JSP (help :( ) 
 					
 					System.out.println("login Success");
