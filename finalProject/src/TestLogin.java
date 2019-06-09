@@ -1,10 +1,10 @@
+
+
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,24 +12,20 @@ import javax.servlet.http.HttpSession;
 
 import org.bson.Document;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Indexes;
 
 
-public class LoginServlet extends HttpServlet{
+@WebServlet("/TestLogin")
+public class TestLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	public static void run(HttpServletRequest request, HttpServletResponse Response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		
-		
-		
-		String email = request.getParameter("email");
+		String email = request.getParameter("username");
 		String password = request.getParameter("password");
 		
 		if (email == null || email == "") { 
@@ -54,43 +50,33 @@ public class LoginServlet extends HttpServlet{
 			query.put("email", email);
 			FindIterable<Document> docs =  collection.find(query);
 			Document doc = collection.find(eq("email",email)).first();
-			
+
 			if (doc != null) {
 				String passwordStored = doc.getString("password");
-				if (password.trim().equals(passwordStored)) {
-					//do we really want to trim?
-					
+				System.out.println("Is password null?");
+				System.out.println(passwordStored);
+				if (password.equals(passwordStored)) {
 					// successful login
 					// store user in session
 					HttpSession session = request.getSession();
 					session.setAttribute("user", email);
-					// redirect to JSP (help :( ) 
-					
 					System.out.println("login Success");
+					client.close();
+					return;
+					
 				} else {
 					// that password is wrong
-					// redirect 
-					System.out.println("Wrong password");
+					response.getWriter().append("Wrong password");
 				}
-				
 			}
 			else {
 				// that email address does not exist
-				// forward back to JSP
-				System.out.println("That email doesn't exist");
-				//might as well send to empty form
-				
+				// forward back to page
+				response.getWriter().append("That email doesn't exist");
 			}
-		
 			client.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}	
-	}
-	public static void badForm() {
-		// bad entry
-		// redirect back to JSP
-		System.out.println("Bad form");
-		
 	}
 }

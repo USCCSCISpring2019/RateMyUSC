@@ -13,9 +13,11 @@
 		<script>
 			function login() {
 				var xhttp = new XMLHttpRequest();
-				xhttp.open("GET", "login?username=" + document.getElementById("username").value
+				
+				xhttp.open("GET", "TestLogin?username=" + document.getElementById("username").value
 					+ "&password=" + document.getElementById("password").value
 					+ "&login_submit=" + document.getElementById("login_submit").value, false);
+				
 				xhttp.send();
 
 				if(xhttp.responseText.length > 0){
