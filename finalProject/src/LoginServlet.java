@@ -1,6 +1,7 @@
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +25,18 @@ import com.mongodb.client.model.Indexes;
 
 public class LoginServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	
-	public static void run(HttpServletRequest request, HttpServletResponse Response) throws ServletException, IOException {
-		
-		
-		
+	public static void run(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		PrintWriter pw=response.getWriter();
 		
 		if (email == null || email == "") { 
 			System.out.println("bad email"); 
+			pw.println("bad email");
 		}
 		if (password == null || password=="") { 
 			System.out.println("bad password"); 
+			pw.println("bad password");
 		}
 		try {
 			MongoClient client = new MongoClient("localhost", 27017);
@@ -46,7 +46,6 @@ public class LoginServlet extends HttpServlet{
 			MongoDatabase dbs = client.getDatabase("RMUSC");
 			System.out.println("Connected to database successful");
 			System.out.println("Database: " + dbs.getName());
-			
 			// Inserting into the collection
 			MongoCollection<Document> collection = dbs.getCollection("testuser");
 			// Find the matching email
@@ -54,51 +53,39 @@ public class LoginServlet extends HttpServlet{
 			query.put("email", email);
 			FindIterable<Document> docs =  collection.find(query);
 			Document doc = collection.find(eq("email",email)).first();
-			
 			if (doc != null) {
 				String passwordStored = doc.getString("password");
 				if (password.trim().equals(passwordStored)) {
-					//do we really want to trim?
-					
-					// successful login
-					// store user in session
 					HttpSession session = request.getSession();
-					session.setAttribute("user", email);
-					
 					String fname = doc.getString("fname");
 					String lname = doc.getString("lname");
 					String major = doc.getString("major");
-					session.setAttribute("fname", fname);
-					session.setAttribute("lname", lname);
-					session.setAttribute("major", major);
-
-					// redirect to JSP (help :( ) 
 					
+//					//so from this
+//					session.setAttribute("fname", fname);
+//					session.setAttribute("lname", lname);
+//					session.setAttribute("user", email);
+//					session.setAttribute("major", major);
+					
+					//to this
+					Student user = new Student(fname, lname, email, major);
+					session.setAttribute("user", user);
 					System.out.println("login Success");
+					pw.println("login success");
 				} else {
-					// that password is wrong
-					// redirect 
 					System.out.println("Wrong password");
+					pw.println("Wrong password");
 				}
 				
 			}
 			else {
-				// that email address does not exist
-				// forward back to JSP
 				System.out.println("That email doesn't exist");
-				//might as well send to empty form
+				pw.println("That email doesn't exit");
 				
 			}
-		
 			client.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}	
-	}
-	public static void badForm() {
-		// bad entry
-		// redirect back to JSP
-		System.out.println("Bad form");
-		
 	}
 }
