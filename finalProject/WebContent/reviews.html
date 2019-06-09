@@ -2,8 +2,29 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<style> 
+::placeholder {
+	font-style: italic;
+}
+</style>
+<link rel="stylesheet" href="reviews.css" />
+<script>
+			function login() {
+				var xhttp = new XMLHttpRequest();
+				
+				xhttp.open("GET", "TestLogin?username=" + document.getElementById("username").value
+					+ "&password=" + document.getElementById("password").value
+					+ "&login_submit=" + document.getElementById("login_submit").value, false);
+				
+				xhttp.send();
 
-<link rel="stylesheet" href="assets/css/reviews.css" />
+				if(xhttp.responseText.length > 0){
+					document.getElementById("error_msg").innerHTML = xhttp.responseText;
+					return false;
+				}
+				return true;
+			}
+		</script>
 </head>
 <body>
 <!-- Header -->
@@ -12,8 +33,9 @@
 					<a href="index.html" class="logo">Rate My USC</a>
 					<nav id="nav">
 						<a href="index.jsp">Home</a>
-						<a href="Login.htm">Generic</a>
-						<a href="elements.html">Elements</a>
+						
+						<a href="#" onclick="document.getElementById('login_overlay').style.display = 'block';">Login</a>
+						<a href="register.html">Register</a>
 					</nav>
 				</div>
 				</header>
@@ -38,7 +60,21 @@
 <input type="submit" value="Search" style="margin:25px">
 </form>
 </div>
-
+<div id="login_overlay">
+				<form id="user_login" action="index.html" onsubmit="return login()">
+					<div style="height:80px;"></div>
+					<div id="" class="login_fields">Email</div><br />
+					<input id="username" name="username" class="login_fields" type="text"><br />
+					<div style="height:20px;"></div>
+					<div class="login_fields">Password</div><br />
+					<input id="password" name="password" class="login_fields" type="password"><br />
+					<div style="height:15px;"></div>
+					<div id="error_msg" class="login_fields"></div>
+					<input id="login_submit" name="login_submit" type="submit" value="Log in">
+				</form>
+				<img id="login_icon" src="images/tj.jpg">
+				<img id="cancel_icon" src="images/cancel.png" onclick="document.getElementById('login_overlay').style.display = 'none';">
+			</div>
 <div id ="sideside2" class="sidenav2" style="margin-top:85px; margin-left:250px; border-color: red;">
 <form>
 <h3 style="margin:25px;">Department</h3>
@@ -72,17 +108,34 @@
 <form>
 <h3 style="margin:25px; margin-bottom:0px;">Rate </h3>
 <label>
-<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Professor" checked="checked"> Professor
-<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Department"> Department
-<input style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Class"> Class
+<input id="ex1" style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Professor" checked="checked"> Professor
+<input id="ex2" style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Department"> Department
+<input id="ex3" style="margin:30px; margin-right: 5px" type="radio" name="rate" value="Class"> Class
 </label>
 <hr style="margin:16px">
 
 <h3 style="margin:25px;">I want to rate</h3>
-<input type="text" style="margin:25px; width:85%; border-color:red" placeholder="Professor's Name">
+<input id="submitText" type="text" style="margin:25px; width:85%; border-color:red" placeholder="Professor's Name">
 <input type="submit" value="Search" style="margin:25px">
 </form>
 </div>
+<script>
+	var exx1 = document.getElementById('ex1');
+	var exx2 = document.getElementById('ex2');
+        var exx3 = document.getElementById('ex3');
+	
+	exx1.onclick = function() {
+		document.getElementById('submitText').placeholder = "Professor's Name";	
+	}
+	exx2.onclick = function() {
+		document.getElementById('submitText').placeholder = "Department Name";	
+	}
+	exx3.onclick = function() {
+		document.getElementById('submitText').placeholder = "Class Name";	
+	}
+	
+</script>
+
 
 
 		
