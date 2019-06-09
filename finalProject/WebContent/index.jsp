@@ -49,7 +49,7 @@
 						<a href="register.html">Register</a>
 						</span>
 						<span id="profile" style="display:none">
-						<a href="profile.html">Profile</a>
+						<a href="profile.jsp">Profile</a>
 						</span>
 					</nav>
 				</div>
