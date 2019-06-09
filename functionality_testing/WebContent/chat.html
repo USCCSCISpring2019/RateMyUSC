@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Web Chat Client</title>
+		<script>
+			var socket;
+			var cache;
+			var username = "user";
+			//var review = "review";
+			function connectToServer() {
+				socket = new WebSocket("ws://localhost:8080/CS201-WebSockets/ServerWS");
+				socket.onopen = function(event) {
+					document.getElementById("mychat").innerHTML += "Connected!<br />";
+				}
+				
+				socket.onmessage = function(event) {
+					if(event.data.substring(0, 5) == "CACHE"){
+						document.chatform.message.value = event.data.substring(5);
+					} else 
+						document.getElementById("mychat").innerHTML += event.data + "<br />";
+				}
+				
+				socket.onclose = function(event) {
+					document.getElementById("mychat").innerHTML += "Disconnected!<br />";
+				}
+			}
+			
+			function sendMessage() {
+				socket.send(document.chatform.message.value);
+			//	return false;
+				
+			}
+			
+			function sendMessage(msg){
+				socket.send(msg);
+			}
+			
+			function storeCache(){
+				sendMessage("CACHE" + username + "MSG" + document.chatform.message.value);
+			}
+			
+		</script>
+	</head>
+	<body onload="connectToServer()" onunload="storeCache()">
+		<script>
+		//	var cacheworker = new Worker("cache.js");
+		</script>
+		<form name="chatform" onsubmit="return sendMessage()">
+			<input type="text" name="message" onblur="storeCache()" /><br />
+			<input type="submit" name="submit" value = "Send Message" />
+		</form>
+		<br />
+		<div id="mychat"></div>
+	</body>
+</html>
