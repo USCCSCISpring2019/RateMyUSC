@@ -19,7 +19,7 @@ import com.mongodb.client.model.Indexes;
 public class AverageRatingServlet {
 	
 	public static void main(String[] args) throws Exception {
-		String profemail = "";
+		String profname = "";
 		
 		
 		try {
@@ -36,19 +36,29 @@ public class AverageRatingServlet {
 			
 			// Find the matching email
 			Document query = new Document();
-			query.put("pemail", pemail);
+			query.put("profname", profname);
 			int numReviews = 0;
-			Double currRating = 0.0;
+			Double runningTotal = 0.0;
 			
 			FindIterable<Document> docs =  collection.find(query);
 			
 			if (docs != null) 
 			{
+				ArrayList<Review> reviews = new ArrayList<>();
 				for (Document doc : docs) {
-					currRating += Double.parseDouble(doc.getString("rating"));
+					int id = Integer.parseInt(doc.getString("id_"));
+					String username = doc.getString("username");
+					String content = doc.getString("ratingText");
+					double rating = Double.parseDouble(doc.getString("rating"));
+					Review curr = new Review(id, username, content, rating, profname);
+					reviews.add(curr);
+					
+					
+					runningTotal += Double.parseDouble(doc.getString("rating"));
 					++numReviews;
 				}
-				System.out.println("Average rating: " + currRating/numReviews);
+				
+				System.out.println("Average rating: " + runningTotal/numReviews);
 			}
 			
 

@@ -54,8 +54,8 @@
 						<span id="register">
 						<a href="register.html">Register</a>
 						</span>
-						<span id="profile" style="display:none">
-						<a href="profile.html">Profile</a>
+						<span id="logout" style="display:none;">
+						<a href="LogoutServlet">Log Out</a>
 						</span>
 					</nav>
 				</div>
@@ -209,7 +209,7 @@
 			<% if (user != null) { %>
 				document.getElementById("login").style.display = "none";
 				document.getElementById("register").style.display = "none";
-				document.getElementById("profile").style.display = "inline";
+				document.getElementById("logout").style.display = "inline";
 			<%	} %>
 			</script>
 	</body>
