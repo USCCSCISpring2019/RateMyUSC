@@ -1,3 +1,4 @@
+package project;
 
 public class Student extends Person{
 	//private String password;

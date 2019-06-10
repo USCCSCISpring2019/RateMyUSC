@@ -1,3 +1,4 @@
+package project;
 
 public class Professor extends Person{
 	String dept;
