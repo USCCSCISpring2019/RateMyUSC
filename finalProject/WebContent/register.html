@@ -10,6 +10,25 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script>
+			function register() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "RegisterServlet?username=" + document.getElementById("uu").value
+						+ "&email=" + document.getElementById("email").value
+						+ "&password=" + document.getElementById("pw").value
+						+ "&password_copy=" + document.getElementById("confirmpw").value
+						+ "&major=" + document.getElementById("major").value
+						, false);
+				xhttp.send();
+				
+				if(xhttp.responseText.length > 0){
+					document.getElementById("error_msg").innerHTML = xhttp.responseText;
+					return false;
+				}
+				return true;
+				
+			}
+		</script>
 	</head>
 	<body>
 
@@ -29,17 +48,13 @@
 		<!-- Main -->
 			<section id="main" >
 				<div class="inner">
-					<header class="major special">
 						<h1>Register</h1>
+						<div id="error_msg"></div>
 						<div class="inner">
-					<form method="post" action="RegisterServlet">
-						<div class="field half first">
-							<label for="fname">First name</label>
-							<input type="text" name="fname" id="fname" />
-						</div>
-						<div class="field half">
-							<label for="lname">Last name</label>
-							<input type="text" name="lname" id="lname" />
+					<form method="GET" action="asdfasdf" onsubmit="return register()">
+						<div class="field" style="width:48.5%">
+							<label for="email">Username</label>
+							<input type="text" name="username" id="uu" />
 						</div>
 						<div class="field" style="width:48.5%">
 							<label for="email">USC Email</label>
@@ -49,11 +64,9 @@
 							<label for="email">Password</label>
 							<input type="password" name="password" id="pw" />
 						</div>
-
-
 						<div class="field" style="width:48.5%">
 							<label for="email">Confirm Password</label>
-							<input type="password" name="password_copy" id="pw" />
+							<input type="password" name="password_copy" id="confirmpw" />
 						</div>
 
 						<div class="field" style="width:48.5%">
@@ -62,18 +75,13 @@
 						</div>							
 
 						<ul class="actions">
-							<li><input type="submit" value="Fight On!" class="alt" /></li>
+							<li><input type="submit" name="submit_" value="Fight On!" class="alt" id="submit_"/></li>
 						</ul>
 					</form>
 					<div class="copyright">
 					</div>
-
 				</div>
-			</section>
-
-		<!-- Footer -->
-			<section id="footer">
-								</div>
+				</div>
 			</section>
 
 		<!-- Scripts -->
@@ -81,6 +89,6 @@
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
+			
 	</body>
 </html>

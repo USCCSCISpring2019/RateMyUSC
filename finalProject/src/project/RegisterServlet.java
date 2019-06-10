@@ -1,6 +1,5 @@
 package project;
 import static com.mongodb.client.model.Filters.eq;
-
 import org.bson.Document;
 
 import com.mongodb.CommandResult;
@@ -20,103 +19,101 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private String fname = null;
-	private String lname = null;
+	private String username = null;
 	private String email = null;
 	private String password = null;
 	private String password_copy = null;
 	private String major = null;
-	private String errorMsg = null;
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		fname 			= request.getParameter("fname");
-		lname 			= request.getParameter("lname");
-		email 			= request.getParameter("email");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		boolean pingDB = true;
+		username		= request.getParameter("username").toLowerCase();
+		email 			= request.getParameter("email").toLowerCase();
 		password 		= request.getParameter("password");
 		password_copy 	= request.getParameter("password_copy");
 		major			= request.getParameter("major");
 		
-		if (password == null || password.trim().equals("")) {
-			errorMsg = "Please enter a password";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
-			
+		if (password == null || password.equals("")) {
+			System.out.println("password is null");
+			response.getWriter().append("Password cannot be null");
+			pingDB = false;
 		}
-		if (password_copy == null || password_copy.trim().equals("")) {
-			errorMsg = "Please enter a password";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
+		else if (password_copy == null || password_copy.equals("")) {
+			System.out.println("Password copy is null");
+			response.getWriter().append("Passwords do not match");
+			pingDB = false;
 		} 
 		
-		if (!password.equals(password_copy)) {
-			errorMsg = "Passwords do not match";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
+		else if (!password.equals(password_copy)) {
+			System.out.println("Password copy is null");
+			response.getWriter().append("Passwords do not match");
+			pingDB = false;
 		}
-		if (fname == null || fname.trim().equals("")) 
-		{ 
-			errorMsg = "Please enter a first name";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
+		else if (email == null) {
+			System.out.println("Email is null");
+			response.getWriter().append("Please enter a valid USC email address");
+			pingDB = false;
 		}
-		if (lname == null || fname.trim().equals("")) {
-			errorMsg = "Please enter a last name";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
-		}
-		if (email != null) {
+		else if (email != null) {
 			String[] tokens = email.split("@");
 			if ((tokens.length != 2) ||  (tokens[0].trim().equals(""))|| (!tokens[1].equalsIgnoreCase("usc.edu"))) { 
-				errorMsg = "Please enter a valid USC email address";
-				request.getRequestDispatcher("register.html").forward(request, response);
-				return;
+				System.out.println("Email is not valid");
+				response.getWriter().append("Please enter a valid USC email address");
+				pingDB = false;
 			}
 		}
-		else {
-			errorMsg = "Please enter a USC email address";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
+		else if (username == null || username.trim().equals("")) {
+			System.out.println("Username is nulll");
+			response.getWriter().append("Please enter a username");
+			pingDB = false;
+		}
+		else if (major == null || major.trim().equals("")) {
+			System.out.println("Major not entered");
+			response.getWriter().append("Please enter a valid USC email address");
+			pingDB = false;
 		}
 		
-		if (major == null || major.trim().equals("")) {
-			errorMsg = "Please enter your major";
-			request.getRequestDispatcher("register.html").forward(request, response);
-			return;
-		
+		if (pingDB) {
+			try {
+				MongoClient client = new MongoClient("localhost", 27017);
+				//String connectPoint = client.getConnectPoint();
+				System.out.println("Server connection successful");
+				MongoDatabase dbs = client.getDatabase("RMUSC");
+				
+				System.out.println("Connected to database successful");
+				System.out.println("Database: " + dbs.getName());
+				
+				
+				// Inserting into the collection
+				MongoCollection<Document> collection = dbs.getCollection("testuser");
+				System.out.println(collection.count());
+				Document doc = collection.find(eq("email",email.toLowerCase())).first();
+				if (doc != null) {
+					System.out.println("Email already exists");
+					response.getWriter().append("That email address is already taken.");
+				} else {
+					doc = collection.find(eq("username", username.toLowerCase())).first();
+					if (doc != null) {
+						System.out.println("Username already exists");
+						response.getWriter().append("That email address is already taken.");
+					}
+					else {
+						// Create this new user
+						doc = new Document("_id", (int)collection.count())
+								.append("username", username)
+								.append("email", email.toLowerCase())
+								.append("password", password)
+								.append("major", major);
+						collection.insertOne(doc);
+						System.out.println("Inserted one document");
+					}
+				}
+				client.close();
+			} catch (Exception e) {
+				System.out.println("Error in DB");
+			} 
 		}
-		try {
-			MongoClient client = new MongoClient("localhost", 27017);
-			//String connectPoint = client.getConnectPoint();
-			System.out.println("Server connection successful");
-			MongoDatabase dbs = client.getDatabase("RMUSC");
-			
-			System.out.println("Connected to database successful");
-			System.out.println("Database: " + dbs.getName());
-			
-			
-			// Inserting into the collection
-			MongoCollection<Document> collection = dbs.getCollection("testuser");
-			System.out.println(collection.count());
-			Document doc = collection.find(eq("email",email.toLowerCase())).first();
-			if (doc == null) {
-				// Create this new user
-				doc = new Document("_id", (int)collection.count())
-						.append("fname", fname)
-						.append("lname", lname)
-						.append("email", email.toLowerCase())
-						.append("password", password)
-						.append("major", major);
-				collection.insertOne(doc);
-				System.out.println("Inserted one document");
-			} else {
-				System.out.println("Email already exists");
-				// email already exists
-				// send it back to registration form
-			}	
-			client.close();
-		} catch (Exception e) {
-			System.out.println("Error in DB");
-		}	
 	}
 	
 }

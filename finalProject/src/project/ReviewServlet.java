@@ -13,11 +13,10 @@ import com.mongodb.client.MongoDatabase;
 
 public class ReviewServlet {
 	public static void main(String[] args) throws Exception {
-		String email = "TinaTrojan@usc.edu";
-		String pemail = "Professor2@usc.edu";
+		String username = "TinaTrojan";
+		String profname = "Sandra Batista";
 		String ratingText = "Dummy review text";
 		String rating = "3";
-		
 		
 		
 		try {
@@ -35,8 +34,8 @@ public class ReviewServlet {
 
 			//Query
 			Document query = new Document();
-			query.put("email", email);
-			query.put("pemail", pemail);
+			query.put("username", username);
+			query.put("profname", profname);
 			
 			
 			// First see if that user exists by email
@@ -45,17 +44,20 @@ public class ReviewServlet {
 			if (doc == null) {
 				// review does not exist yet
 				// store new document
-				doc = new Document("email", email)
-						.append("pemail", pemail)
+				doc = new Document("_id", (int)collection.count())
+						.append("username", username)
+						.append("profname", profname)
 						.append("rating", rating)
 						.append("ratingText", ratingText);
 				collection.insertOne(doc);
 				System.out.println("New review inserted");
 			} else {
+				int id_ = Integer.parseInt(doc.getString("id_"));
 				collection.findOneAndDelete(doc);
 				
-				doc = new Document("email", email)
-						.append("pemail", pemail)
+				doc = new Document("_id", id_)
+						.append("username", username)
+						.append("profname", profname)
 						.append("rating", rating)
 						.append("ratingText", ratingText);
 				collection.insertOne(doc);
