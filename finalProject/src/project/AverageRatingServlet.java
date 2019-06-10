@@ -19,7 +19,7 @@ import com.mongodb.client.model.Indexes;
 public class AverageRatingServlet {
 	
 	public static void main(String[] args) throws Exception {
-		String pemail = "Professor@usc.edu";
+		String profemail = "";
 		
 		
 		try {

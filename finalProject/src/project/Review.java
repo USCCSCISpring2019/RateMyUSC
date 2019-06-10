@@ -17,11 +17,12 @@ public class Review implements Serializable{
 		
 	}
 	
-	public Review(int id, String username, String content, double rating) {
+	public Review(int id, String username, String content, double rating, String profname) {
 		this.id = id;
 		this.username = username;
 		this.content = content;
 		this.rating = rating;
+		this.prof = profname;
 	}
 	
 	public int getID() {

@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -89,6 +90,9 @@ public class RegisterServlet extends HttpServlet {
 				MongoCollection<Document> collection = dbs.getCollection("testuser");
 				System.out.println(collection.count());
 				Document doc = collection.find(eq("email",email.toLowerCase())).first();
+				
+				
+				
 				if (doc != null) {
 					System.out.println("Email already exists");
 					response.getWriter().append("That email address is already taken.");
@@ -99,6 +103,11 @@ public class RegisterServlet extends HttpServlet {
 						response.getWriter().append("That email address is already taken.");
 					}
 					else {
+						// Set session user
+						HttpSession session = request.getSession();
+						User user = new User(username, major, email);
+						session.setAttribute("user", user);
+						
 						// Create this new user
 						doc = new Document("_id", (int)collection.count())
 								.append("username", username)

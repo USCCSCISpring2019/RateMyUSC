@@ -34,8 +34,10 @@
 	</head>
 	<body>
 		
-		<% User user = (User) session.getAttribute("user"); 
-			System.out.println("User is = " + user.getEmail());
+		<% 
+		User user = null;
+		if(session.getAttribute("user") != null)
+				user = (User) session.getAttribute("user"); 
 		%>
 		
 
