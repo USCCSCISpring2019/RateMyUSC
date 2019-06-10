@@ -1,18 +1,19 @@
+package project;
 
-public class Person {
-	private String fname;
-	private String lname;
+import java.io.Serializable;
+
+public class Person implements Serializable{
+
 	private String email;
 	
-	public Person(String fname_, String lname_, String email_) {
-		fname=fname_;
-		lname=lname_;
+	public Person(String email_) {
 		email=email_;
 	}
 	
-	public String getName() {
-		return fname+" "+lname;
+	public Person() {
+		
 	}
+	
 	public String getEmail() {
 		return email;
 	}
