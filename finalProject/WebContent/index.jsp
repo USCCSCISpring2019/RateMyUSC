@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ page import="project.*, java.util.ArrayList, javax.servlet.http.HttpSession" %>
 <!DOCTYPE HTML>
 <!--
 	Introspect by TEMPLATED
@@ -33,7 +33,11 @@
 		
 	</head>
 	<body>
-
+		
+		<% User user = (User) session.getAttribute("user"); 
+			System.out.println("User is = " + user.getEmail());
+		%>
+		
 
 		<!-- Header -->
 			<header id="header">
@@ -41,7 +45,7 @@
 					<a href="index.jsp" class="logo">Rate My USC</a>
 					<nav id="nav">
 						<a href="index.jsp">Home</a>
-						<a href="reviews.html">Reviews</a>
+						<a href="reviews.jsp">Reviews</a>
 						<span id="login">
 						<a  href="#" onclick="document.getElementById('login_overlay').style.display = 'block';">Login</a>
 						</span>
@@ -49,7 +53,7 @@
 						<a href="register.html">Register</a>
 						</span>
 						<span id="profile" style="display:none">
-						<a href="profile.jsp">Profile</a>
+						<a href="profile.html">Profile</a>
 						</span>
 					</nav>
 				</div>
@@ -199,16 +203,12 @@
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-		<script>
-		<% String user = (String) session.getAttribute("user"); 
-			System.out.println("User is = " + user);
-		%>
-		<% if (user != null) { %>
-			document.getElementById("login").style.display = "none";
-			document.getElementById("register").style.display = "none";
-			document.getElementById("profile").style.display = "inline";
-			
-		<%	} %>
-		</script>
+			<script>
+			<% if (user != null) { %>
+				document.getElementById("login").style.display = "none";
+				document.getElementById("register").style.display = "none";
+				document.getElementById("profile").style.display = "inline";
+			<%	} %>
+			</script>
 	</body>
 </html>

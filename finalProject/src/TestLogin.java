@@ -1,4 +1,4 @@
-
+package project;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -53,14 +53,17 @@ public class TestLogin extends HttpServlet {
 
 			if (doc != null) {
 				String passwordStored = doc.getString("password");
+				String username = doc.getString("username");
+				String major = doc.getString("major");
 				System.out.println("Is password null?");
 				System.out.println(passwordStored);
 				if (password.equals(passwordStored)) {
 					// successful login
 					// store user in session
 					HttpSession session = request.getSession();
-					session.setAttribute("user", email);
-					System.out.println("login Success");
+					User user = new User(username, major, email);
+					session.setAttribute("user", user);
+					System.out.println("Login success");
 					client.close();
 					return;
 					
