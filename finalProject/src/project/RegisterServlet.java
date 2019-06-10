@@ -28,7 +28,9 @@ public class RegisterServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		boolean pingDB = true;
+		
 		username		= request.getParameter("username").toLowerCase();
 		email 			= request.getParameter("email").toLowerCase();
 		password 		= request.getParameter("password");
@@ -116,12 +118,20 @@ public class RegisterServlet extends HttpServlet {
 								.append("major", major);
 						collection.insertOne(doc);
 						System.out.println("Inserted one document");
+						
+						// Send email
+						try {
+							SendEmail se = new SendEmail(email);
+						} catch (Exception e) {
+							System.out.println("Error sending email. Sometimes it just happens");
+						}
 					}
 				}
 				client.close();
 			} catch (Exception e) {
 				System.out.println("Error in DB");
 			} 
+			
 		}
 	}
 	
